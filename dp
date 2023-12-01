@@ -1,0 +1,136 @@
+CoordMode, ToolTip, Screen
+b_tooltip:=1
+
+Menu, Tray, Icon, C:\WINDOWS\system32\imageres.dll,286 ;Set custom Script icon
+
+
+HttpObj := ComObjCreate("WinHttp.WinHttpRequest.5.1")
+
+menu, tray, add, copy resource, p_cpy
+menu, tray, add, hide tooltip, p_t_hide
+
+
+
+loop {
+FormatTime, TimeString,, dd/MM/yy H:mm
+FormatTime, horas,, H:mm
+
+HttpObj.Open("GET","https://statsdeep.furegati.com.br/ws/deep.php") ; metodo get, post , put(upload files)
+
+HttpObj.Send()
+
+RegExMatch(HttpObj.ResponseText,"{""poolId"":0.*?""price"":(.*?)}",iron)
+RegExMatch(HttpObj.ResponseText,"{""poolId"":1.*?""price"":(.*?)}",Seplium)
+RegExMatch(HttpObj.ResponseText,"{""poolId"":2.*?""price"":(.*?)}",Hydrogen)
+RegExMatch(HttpObj.ResponseText,"{""poolId"":3.*?""price"":(.*?)}",Fenna)
+RegExMatch(HttpObj.ResponseText,"{""poolId"":4.*?""price"":(.*?)}",Bedasine)
+RegExMatch(HttpObj.ResponseText,"{""poolId"":5.*?""price"":(.*?)}",Netherite)
+RegExMatch(HttpObj.ResponseText,"{""poolId"":6.*?""price"":(.*?)}",Xanifarium)
+RegExMatch(HttpObj.ResponseText,"{""poolId"":7.*?""price"":(.*?)}",Promethium)
+
+
+/*
+iron_save:=iron1
+Seplium_save:=Seplium1
+Hydrogen_save:=Hydrogen1
+Fenna_save:=Fenna1
+Bedasine_save:=Bedasine1
+Netherite_save:=Netherite1
+Xanifarium_save:=Xanifarium1
+Promethium_save:=Promethium1
+*/
+
+if(b_tooltip==1)
+tooltip, % horas "`n" round(iron1,2) "`n" round(Seplium1,2) "`n" round(Hydrogen1,2) "`n" round(Fenna1,2) "`n" round(Bedasine1,2) "`n" round(Netherite1,2) "`n" round(Xanifarium1,2) "`n" round(Promethium1,2),0,0,1
+
+
+resource:= round(iron1,2) a_tab round(iron_save,2) "`n" round(Seplium1,2) a_tab round(Seplium_save,2) "`n" round(Hydrogen1,2) a_tab round(Hydrogen_save,2) "`n" round(Fenna1,2) a_tab round(Fenna_save,2) "`n" round(Bedasine1,2) a_tab round(Bedasine_save,2) "`n" round(Netherite1,2) a_tab round(Netherite_save,2) "`n" round(Xanifarium1,2) a_tab round(Xanifarium_save,2) "`n" round(Promethium1,2) a_tab round(Promethium_save,2) ,0,0,1
+
+;msgbox, % "iron: " iron1 "`nSeplium: "  Seplium1 "`nHydrogen: "  Hydrogen1 "`nFenna: "  Fenna1 "`nBedasine: "  Bedasine1 "`nNetherite: "  Netherite1 "`nXanifarium: "  Xanifarium1 "`nPromethium: "  Promethium1 
+
+FileAppend , % "`n`n" TimeString "`n" resource , resource.txt, UTF-8
+
+
+
+if(b_cpy==1){
+if(iron_save*multply<iron1){
+soundbeep,500,500
+soundbeep,500,500
+msgbox, % iron1 
+}
+if(Seplium_save*multply<Seplium1){
+soundbeep,500,500
+soundbeep,500,500
+msgbox, % Seplium1 
+}
+if(Hydrogen_save*multply<Hydrogen1){
+soundbeep,500,500
+soundbeep,500,500
+msgbox, % Hydrogen1
+}
+if(Fenna_save*multply<Fenna1){
+soundbeep,500,500
+soundbeep,500,500
+msgbox, % Fenna1
+}
+if(Bedasine_save*multply<Bedasine1){
+soundbeep,500,500
+soundbeep,500,500
+msgbox, % Bedasine1
+}
+if(Netherite_save*multply<Netherite1){
+soundbeep,500,500
+soundbeep,500,500
+msgbox, % Netherite1
+}
+if(Xanifarium_save*multply<Xanifarium1){
+soundbeep,500,500
+soundbeep,500,500
+msgbox, % Xanifarium1
+}
+if(Promethium_save*multply<Promethium1){
+soundbeep,500,500
+soundbeep,500,500
+msgbox, % Promethium1
+}
+}
+
+sleep, % 1000*60*1
+}
+
+
+p_t_hide:
+b_tooltip:=!b_tooltip
+
+if(b_tooltip==1)
+tooltip, % horas "`n" round(iron1,2) "`n" round(Seplium1,2) "`n" round(Hydrogen1,2) "`n" round(Fenna1,2) "`n" round(Bedasine1,2) "`n" round(Netherite1,2) "`n" round(Xanifarium1,2) "`n" round(Promethium1,2),0,0,1
+else
+tooltip,,0,0,1
+
+return 
+
+
+p_cpy:
+
+multply:=1.5
+
+
+
+b_cpy:=1
+iron_save:=iron1
+Seplium_save:=Seplium1
+Hydrogen_save:=Hydrogen1
+Fenna_save:=Fenna1
+Bedasine_save:=Bedasine1
+Netherite_save:=Netherite1
+Xanifarium_save:=Xanifarium1
+Promethium_save:=Promethium1
+
+
+
+return
+
+
+
+
+
